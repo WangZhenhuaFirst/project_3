@@ -1,9 +1,9 @@
 # _*_ coding utf-8 _*_
 '''
 调取catchkeywords得到的关键字列表，作为第一部分要输出的关键字
-根据用户输入的关键字匹配TXT中的类似词语，作为第二部分要输出的关键字
+根据用户输入的主题词匹配TXT中的类似词语，作为第二部分要输出的关键字
 将两部分合并，得到所有要展示给用户的关键字列表
-后续这些关键字对HTML文件中的相同词语进行高亮标注
+后续对HTML文件中的这些关键字进行高亮标注
 '''
 
 import jieba
@@ -15,7 +15,8 @@ import numpy as np
 
 def stopwordslist():
     # 根据目录保存的停用词TXT文件，生成停用词list备用
-    stopwords = [line.strip() for line in open('stopwords.txt',encoding='UTF-8').readlines()]
+    stopwords = [line.strip() for line in open(
+        'stopwords.txt', encoding='UTF-8').readlines()]
     return stopwords
 
 
@@ -55,7 +56,8 @@ def get_final_keywords(file_path, embed_file, usr_keyword):
         distance = {}
         for text_word in get_words:
             if key_word in embedding_words and text_word in list(embedding_words.keys()) and text_word not in tfidf_keywords:
-                distance[text_word] = get_dist(embedding_words[key_word], embedding_words[text_word])
+                distance[text_word] = get_dist(
+                    embedding_words[key_word], embedding_words[text_word])
 
         res = sorted(distance.items(), key=lambda d: d[1], reverse=True)
         if res:
@@ -70,4 +72,3 @@ if __name__ == '__main__':
     embedfile_path = 'word2vec_format.txt'
     usr_keyword = ['计算机', '人工智能']
     print(get_final_keywords(file_path, embedfile_path, usr_keyword))
-

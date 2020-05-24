@@ -1,9 +1,9 @@
 # _*_ coding utf-8 _*_
 '''
-输入PDF转换为TXT的数据：txt格式
+输入PDF文件，转换为txt文件
 通过jieba库分别调用texttrank算法和tfidf算法，提取txt文件的关键字
-输出指定个数的txt文件的关键：存为list类型
-通过对几个中文文档的关键字提取效果测试，后续采用tfidf算法提取关键字的结果
+输出指定个数的txt文件的关键词：存为list类型
+通过对几个中文文档的关键字提取效果测试，后续采用tfidf算法提取关键字
 '''
 
 from jieba import analyse
@@ -34,10 +34,3 @@ if __name__ == '__main__':
     tfidf_extract(text)
     print('TextRank模型结果：')
     textrank_extract(text)
-
-
-
-
-
-
-

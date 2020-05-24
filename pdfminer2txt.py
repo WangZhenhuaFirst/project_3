@@ -8,16 +8,21 @@
 
 def get_pdf2txt(path):
     # 输入目标PDF路径，输出字符串形式的全文文本
-    from pdfminer.pdfparser import PDFParser, PDFDocument
+    # from pdfminer.pdfparser import PDFParser, PDFDocument
+    from pdfminer.pdfparser import PDFParser
+    from pdfminer.pdfdocument import PDFDocument
+
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
     from pdfminer.converter import PDFPageAggregator
     from pdfminer.layout import LAParams, LTTextBox
-    from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
+    # from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
+    from pdfminer.pdfpage import PDFTextExtractionNotAllowed
 
     # 用文件对象来创建一个pdf文档分析器
     praser = PDFParser(open(path, 'rb'))
     # 创建一个PDF文档
-    doc = PDFDocument()
+    # doc = PDFDocument()
+    doc = PDFDocument(praser)
     # 连接分析器 与文档对象
     praser.set_document(doc)
     doc.set_parser(praser)
