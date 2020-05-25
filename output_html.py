@@ -29,13 +29,26 @@ import numpy as np
 import re
 import clean_html
 import get_all_keywords
+from pdf2html_file import get_html_file
 
-filename = 'test'
-filepath = 'pdf/test.pdf'
+file_path = './pdf/test.pdf'
+
+# 获取PDF在当前位置的路径
+filepath = file_path
+# 截取文件名:c, d为过渡变量
+c = file_path.split('/')
+d = c[2].split('.')
+filename = d[0]
+
 stopwords_path = 'word2vec_format.txt'
-html_file = 'pdf2html/test.html'
+
+get_html_file(filename)
+html_file = 'pdf2html/' + filename + '.html'
+
 usr_keyword = input('请输入关键字（多个关键字用空格隔开）：').split()
+
 html_doc = clean_html.clean_html(html_file)
+
 
 
 # 导入关键词列表，以备遍历

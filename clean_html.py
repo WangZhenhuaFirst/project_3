@@ -19,7 +19,7 @@ def clean_html(html_file1):
     return after_clean3
 
 
-if __name__ == '__main':
+if __name__ == '__main__':
     html_file = 'pdf2html/test.html'
     after_clean = clean_html(html_file)
     print(after_clean)
