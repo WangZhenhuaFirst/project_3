@@ -34,7 +34,7 @@ filename = 'test'
 filepath = 'pdf/test.pdf'
 stopwords_path = 'word2vec_format.txt'
 html_file = 'pdf2html/test.html'
-usr_keyword = ['计算机', '人工智能']
+usr_keyword = input('请输入关键字（多个关键字用空格隔开）：').split()
 html_doc = clean_html.clean_html(html_file)
 
 
@@ -57,22 +57,30 @@ def indexstr(str1, str2):
 
 
 # 获取所有关键词在HTML文本字符串中的位置
-loca_list = {}
+loca_dic = {}
 for elem in final_keywords:
     elem_loca = indexstr(html_doc, elem)
-    loca_list[elem] = elem_loca
+    loca_dic[elem] = elem_loca
+loca_list = []
+for value in loca_dic.values():
+    loca_list += value
+loca_list = list(set(loca_list))
+loca_list = sorted(loca_list)
 
-# 根据关键词长度，逐个在关键词前后添加<mark></mark>标签
+# 根据关键词位置，逐个在关键词前后添加<mark></mark>标签
 html_doc_lis = list(html_doc)
 add_ltag = '<mark>'
 add_rtag = '</mark>'
-print(type(html_doc_lis))
-for word, location in loca_list.items():
-    len_word = len(word)
-    len_location = len(loca_list[word])
-    for i in range(len_location):
-        html_doc_lis.insert(loca_list[word][i], add_ltag)
-        html_doc_lis.insert(loca_list[word][i]+len_word+1, add_rtag)
+how_many_postions = len(html_doc)
+how_many_words = len(final_keywords)
+postion_change = 2*how_many_postions + how_many_words*13
+print(loca_list)
+for i in range(len(loca_list)):
+    html_doc_lis.insert(loca_list[i], add_ltag)
+    loca_list = [e + 1 for e in loca_list]
+    html_doc_lis.insert(loca_list[i] + 2, add_rtag)
+    loca_list = [e + 1 for e in loca_list]
+
 mark_html = ''.join(html_doc_lis)
 
 # 输出为HTML文件，保存到本地，后续由前端调用打开作为展示结果
