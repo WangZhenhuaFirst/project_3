@@ -61,11 +61,20 @@ loca_dic = {}
 for elem in final_keywords:
     elem_loca = indexstr(html_doc, elem)
     loca_dic[elem] = elem_loca
-loca_list = []
-for value in loca_dic.values():
-    loca_list += value
-loca_list = list(set(loca_list))
-loca_list = sorted(loca_list)
+# 构造辅助列表
+prepare_list = []
+for k, v in loca_dic.items():
+    prepare_list.append((k,v))
+# 获取位置——关键字，字典
+loca_word = {}
+for i in range(len(prepare_list)):
+    for n in prepare_list[i][1]:
+        loca_word[n] = prepare_list[i][0]
+# 按键值大小排序,键为位置数据（int型），value为关键字， 但是字典是没有顺序的，所以转换为列表，列表元素为列表对
+loca_word_tuple = sorted(loca_word.items(),key=lambda dict:dict[0], reverse=False)  # 此为列表内的元组对
+loca_word_list = []
+for ele in loca_word_tuple:
+    loca_word_list.append(list(ele))
 
 # 根据关键词位置，逐个在关键词前后添加<mark></mark>标签
 html_doc_lis = list(html_doc)
@@ -74,13 +83,14 @@ add_rtag = '</mark>'
 how_many_postions = len(html_doc)
 how_many_words = len(final_keywords)
 postion_change = 2*how_many_postions + how_many_words*13
-print(loca_list)
-for i in range(len(loca_list)):
-    html_doc_lis.insert(loca_list[i], add_ltag)
-    loca_list = [e + 1 for e in loca_list]
-    html_doc_lis.insert(loca_list[i] + 2, add_rtag)
-    loca_list = [e + 1 for e in loca_list]
-
+print(loca_word_list)
+for i in range(len(loca_word_list)):
+    html_doc_lis.insert(loca_word_list[i][0], add_ltag)
+    for ele in loca_word_list:
+        ele[0] += 1
+    html_doc_lis.insert(loca_word_list[i][0] + len(loca_word_list[i][1]), add_rtag)
+    for ele in loca_word_list[(i+1):]:
+        ele[0] += 1
 mark_html = ''.join(html_doc_lis)
 
 # 输出为HTML文件，保存到本地，后续由前端调用打开作为展示结果
