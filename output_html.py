@@ -83,7 +83,7 @@ add_rtag = '</mark>'
 how_many_postions = len(html_doc)
 how_many_words = len(final_keywords)
 postion_change = 2*how_many_postions + how_many_words*13
-print(loca_word_list)
+
 for i in range(len(loca_word_list)):
     html_doc_lis.insert(loca_word_list[i][0], add_ltag)
     for ele in loca_word_list:

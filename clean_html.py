@@ -12,7 +12,6 @@ import re
 def clean_html(html_file1):
     with open(html_file1, encoding='utf-8') as f:
         html_content = f.read()
-    print(html_content,'==='*20)
     clean_str_noblank = r'\<span.*?\>\s*'
     clean_str_end = r'\<\/span\>'
     after_clean2 = re.sub(clean_str_noblank, '', html_content)
