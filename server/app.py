@@ -1,5 +1,6 @@
 from flask_cors import CORS
 from flask import Flask, jsonify, request
+import highlight_html
 
 # configuration
 DEBUG = True
@@ -16,21 +17,22 @@ CORS(app)
 @app.route('/', methods=['POST'])
 def commit():
     file = request.files["file"]
-    file_name = file.filename
+    file_name = file.filename.replace(' ', '')
+    file_path = f'./data/pdf_file/{file_name}'
+    file.save(file_path)
     # print(f"file: {file}")
     print(f"file_name: {file_name}")
 
     subject_words = request.form["subject_words"].split(',')
     # print(subject_words)
-    # if subject_words:
 
-    keywords = ['关键词一', '关键词二', '关键词三', '关键词四']
+    html_file_name = file_name.split('.')[0] + '.html'
+    keywords = highlight_html.get_result(file_path, file_name, subject_words)
 
-    path = f'./server/static/{file_name}'
-    file.save(path)
-
+    # server_path = "http://127.0.0.1:5000"
+    server_path = "http://l3132c3923.qicp.vip/"
     return jsonify({
-        'download_url': f'http://localhost:5000/static/{file_name}',
+        'download_url': f'{server_path}/static/{html_file_name}',
         'keywords': keywords
     })
 

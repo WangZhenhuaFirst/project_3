@@ -8,7 +8,9 @@
             <input type="file" @change="getFile($event)" style="display:none" />
             <a-icon type="upload" />点我上传PDF
           </label>
-          <span>{{ filename }}</span>
+          <br />
+          <br />
+          <p>{{ filename }}</p>
         </a-col>
         <a-col :span="8">
           <li v-for="(subject_word, index) in subject_words" :key="index">
@@ -25,10 +27,18 @@
 
     <div id="result" v-if="seen">
       <a-row>
-        <a-col :span="6">
-          <a-button type="primary" icon="download" v-bind:href="download_url">点我下载高亮PDF</a-button>
+        <a-col :span="8">
+          <a-button type="primary" target="_blank" v-bind:href="download_url">点我查看高亮HTML</a-button>
+          <br />
+          <br />
+          <br />
+            <ul>
+              <li style="text-align:left;">可在新的标签页看到高亮关键词的HTML文件</li>
+              <li style="text-align:left;">点击鼠标右键，选择打印/print，即可保存高亮的PDF文件</li>
+            </ul>
         </a-col>
         <a-col :span="8">
+          <p>关键词列表：</p>
           <li v-for="(keyword, index) in keywords" :key="index">{{ keyword }}</li>
         </a-col>
       </a-row>
@@ -82,7 +92,10 @@ export default {
           }
         };
 
-        axios.post("http://127.0.0.1:5000", formData, config).then(res => {
+        // server_path = "http://127.0.0.1:5000"
+        let server_path = "http://l3132c3923.qicp.vip/"
+
+        axios.post(server_path, formData, config).then(res => {
           // console.log(res);
           this.download_url = res.data.download_url;
           this.keywords = res.data.keywords;
@@ -98,12 +111,13 @@ export default {
 #import {
   background-color: aqua;
   padding-top: 50px;
-  padding-bottom: 80px;
+  padding-bottom: 50px;
 }
 
 #result {
   background-color: aquamarine;
-  padding: 80px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .custom-file-upload {
